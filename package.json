@@ -1,0 +1,29 @@
+{
+  "name": "neap_starter_template",
+  "version": "1.0.0",
+  "description": "basic template for Node, Express, Angular, Postgres apss",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thexande/NEAP_starter_template.git"
+  },
+  "author": "Alexander Murphy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thexande/NEAP_starter_template/issues"
+  },
+  "homepage": "https://github.com/thexande/NEAP_starter_template#readme",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "body-parser": "^1.15.1",
+    "bookshelf": "^0.9.5",
+    "bookshelf-modelbase": "^2.10.1",
+    "express": "^4.13.4",
+    "knex": "^0.11.5",
+    "morgan": "^1.7.0",
+    "pg": "^5.0.0"
+  }
+}
