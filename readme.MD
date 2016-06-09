@@ -78,7 +78,7 @@
       })
   })
   ```
-  #### Next, use PostMan to test our route.
+#### Next, use PostMan to test our route.
   ![postman](http://alexmurphy.me/img/neap_template/postman.png)
-  #### And our final result, a record in our DB!!!!
+#### And our final result, a record in our DB!!!!
   ![dbrecord](http://alexmurphy.me/img/neap_template/dbrecord.png)
