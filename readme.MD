@@ -38,7 +38,7 @@ module.exports = {
             tableName: "users"
         }
     }
-};
+}
 ```
 
 Once we have configured our knexfile.js, lets take a look at our migration directory. We have a file with `firstMigration.js` at the end. This is the magic which generates our table with columns of various types and titles. This table, along with our columns, will be generated automatically by our `database_config.js` file later on!
@@ -108,7 +108,7 @@ As apposed to classic SQL, who wants to do this any more?
 
 ```sql
   INSERT INTO userTable (name, pw, occupation)
-  VALUES('Stimpy Dangerfield', 'foobarbaz', 'Private Eye');
+  VALUES('Stimpy Dangerfield', 'foobarbaz', 'Private Eye')
 ```
 
 ### Manual Knex Migration (how and why)
@@ -128,7 +128,7 @@ Next, lets look at our `app/routes.js` file. This file defines our express route
 ```javascript
   var yourTable = ModelBase.extend({
     tableName: 'YOUR_TABLE_NAME_HERE'
-  });
+  })
 
   // api route
   router.route('/logToDatabase').post(function(req, res) {

@@ -1,5 +1,5 @@
 // our router file for our API
-var express = require('express');
+var express = require('express')
 router = express.Router()
 var ModelBase = require('bookshelf-modelbase')(bookshelf)
 
@@ -12,7 +12,7 @@ var yourTable = ModelBase.extend({
 
 // api route
 router.route('/logToDatabase').post(function(req, res) {
-  console.log(req.body);
+  console.log(req.body)
   yourTable.create({ 'post_contents' : req.body })
     .catch((error) => {
       console.log(error)
