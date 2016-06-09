@@ -64,13 +64,14 @@
   var ModelBase = require('bookshelf-modelbase')(bookshelf);
 
   ```
-  What the he!! is all this stuff? short answer, they are abstractions on top of SQL to get our querying done, and to be able to use the JS object model we all know so well. The short version is knex is the SQL connector for js, allowing us to change db tables and query in the classic SQL fashion. Bookshelf.js is for the object notation abstraction. Finally we use bookshelf-modelbase to access a bunch of pre build models for CRUD operations.
+  What the he!! is all this stuff? short answer, they are abstractions on top of SQL to get our querying done, and be able to use the JS object model we all know so well. Knex is the SQL connector for js, allowing us to change db tables and query in the classic SQL fashion. Bookshelf.js is for the object notation abstraction. Finally we use bookshelf-modelbase to access a bunch of pre build models for CRUD operations.
+
   JS object notation create query for example:
 
   ```javascript
   userTable.create({ name:'Stimpy Dangerfield', pw:'foobarbaz', occupation: 'Private Eye' })
   ```
-  As apposed to classic SQL, who wants to do this any more?:
+  As apposed to classic SQL, who wants to do this any more?
 
   ![bobo](https://media.giphy.com/media/WrxoaVPiq0cG4/giphy.gif)
   ```sql
