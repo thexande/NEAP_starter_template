@@ -47,6 +47,39 @@
       }
   };
   ```
+#### Knex, Bookshelf.js, ModelBase oh my!
+  Lets take a look at our DB configuration file, database_config.js
+
+  ```javascript
+  var config = require('./knexfile.js');
+  var env = 'development';
+  // knex config
+  var knex = require('knex')(config[env]);
+  knex.migrate.latest([config]);
+  // bookshelf config
+  bookshelf = require('bookshelf')(knex);
+  bookshelf.plugin('registry');
+  module.exports = bookshelf;
+  // bookshelf-modelbase
+  var ModelBase = require('bookshelf-modelbase')(bookshelf);
+
+  ```
+  What the he!! is all this stuff? short answer, they are abstractions on top of SQL to get our querying done, and to be able to use the JS object model we all know so well. The short version is knex is the SQL connector for js, allowing us to change db tables and query in the classic SQL fashion. Bookshelf.js is for the object notation abstraction. Finally we use bookshelf-modelbase to access a bunch of pre build models for CRUD operations.
+  JS object notation create query for example:
+
+  ```javascript
+  userTable.create({ name:'Stimpy Dangerfield', pw:'foobarbaz', occupation: 'Private Eye' })
+  ```
+  As apposed to classic SQL, who wants to do this any more?:
+
+  ![bobo](https://media.giphy.com/media/WrxoaVPiq0cG4/giphy.gif)
+  ```sql
+  INSERT INTO userTable (name, pw, occupation)
+  VALUES('Stimpy Dangerfield', 'foobarbaz', 'Private Eye');
+  ```
+
+
+#### Knex Migration
   Next we must execute our migration using the knex CLI. First, install the knex CLI globally if you dont have it:
   `npm install knex --global`
   Next, navigate to your config directory and run the following command to execute our migration and create our table with columns:
