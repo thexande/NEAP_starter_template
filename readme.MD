@@ -20,7 +20,7 @@
     return Promise.all([
       knex.schema.createTableIfNotExists('YOUR_TABLE_NAME_HERE', function(table){
         table.increments('id').primary()
-        table.text("text_column")
+        table.text("postBody")
       })
     ])
   }
