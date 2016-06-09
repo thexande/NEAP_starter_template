@@ -1,54 +1,69 @@
 # Node.js, Express, PostgreSQL API template
-### How to use
-  this template assumes you are running postgres locally. If you dont have postgres installed yet, please do so before continuing. If you are running Macintosh, check out [Postgres.app](http://postgresapp.com/).
+### What is this?
+NEAP starter template demonstrates a Node.js API connected to a postgreSQL database in a small, simple package.
 
-  If you would like to use a GUI to navigate your database, I suggest [Postico](https://eggerapps.at/postico/)
+### Requirements
+  * Node.js and npm
+  * [Postgres.app](http://postgresapp.com/)
+  * Postgres GUI tool [Postico](https://eggerapps.at/postico/)
+
+### How to use
 
   As soon as you configure your local DB and can connect with your client of choice, create a database. Call it test, or another name.
 
   Additionally, node is required to be installed locally.
 
 ### getting started
-  * Fork, clone, and enter your directory.
+  1. Fork, clone, and enter your directory.
+
   * `npm install` to get all required node packages
-  * `nodemon server.js` to run your server
+
+  * create your database using Postico or psql on the command line, then update your `config/.knexfile` with your new DB name
+
+  * `nodemon server.js` to run your server, DB migration should run automatically if you have .knexfile configured correctly with your DB name, as well as Postgres.app running.
+
 
 ### Database Configuration
-  Open our /migrations directory to take a look at the default migration file:
-  ```javascript
-  exports.up = function(knex, Promise) {
-    return Promise.all([
-      knex.schema.createTableIfNotExists('YOUR_TABLE_NAME_HERE', function(table){
-        table.increments('id').primary()
-        table.text("post_contents")
-        table.text("created_at")
-        table.text("updated_at")
-      })
-    ])
-  }
-  exports.down = function(knex, Promise) {
-    knex.schema.dropTable('YOUR_TABLE_NAME_HERE')
-  }
-  ```
-  First, we need to add a table name to our migration file. Now would be a great time to add a table name, as well as some columns to our database.
+First, we need to add a table name to our migration file. Now would be a great time to add a table name, as well as some columns to our database.
 
-  Open our config/knexfile.js file and update our connection string to include your PG database:
-  ```javascript
-  // Update with your config settings.
-  module.exports = {
-      // development configuration for local PG
-      development: {
-          client: 'pg',
-          connection: 'postgres://localhost/YOUR_DATABASE_HERE',
-          migrations: {
-              'directory': __dirname + "/migrations",
-              tableName: "users"
-          }
-      }
-  };
-  ```
+Open our config/knexfile.js file and update our connection string to include your PG database:
+```javascript
+// Update with your config settings.
+module.exports = {
+    // development configuration for local PG
+    development: {
+        client: 'pg',
+        connection: 'postgres://localhost/YOUR_DATABASE_NAME_HERE',
+        migrations: {
+            'directory': __dirname + "/migrations",
+            tableName: "users"
+        }
+    }
+};
+```
+Once we have configured our knexfile.js, lets take a look at our migration directory. We have a file with `firstMigration.js` at the end. This is the magic which generates our table with columns of various types and titles. This table, along with our columns, will be generated automatically by our `database_config.js` file later on!
+
+
+```javascript
+exports.up = function(knex, Promise) {
+  return Promise.all([
+    knex.schema.createTableIfNotExists('YOUR_TABLE_NAME_HERE', function(table){
+      table.increments('id').primary()
+      table.text("post_contents")
+      table.text("created_at")
+      table.text("updated_at")
+    })
+  ])
+}
+exports.down = function(knex, Promise) {
+  knex.schema.dropTable('YOUR_TABLE_NAME_HERE')
+}
+```
+
 #### Knex, Bookshelf.js, ModelBase oh my!
-  Lets take a look at our DB configuration file, database_config.js
+  Lets take a look at our DB configuration file, database_config.js.
+  ##### A note on migrations
+  `knex.migrate.latest([config]);` is the magic line which executes our migration on server load. This creates our table and columns we will be appending to later. without this line, we would have to manually run our migraiton using the command `knex migrate:latest` using the knex CLI.
 
   ```javascript
   var config = require('./knexfile.js');
@@ -64,7 +79,8 @@
   var ModelBase = require('bookshelf-modelbase')(bookshelf);
 
   ```
-  What the he!! is all this stuff? short answer, they are abstractions on top of SQL to get our querying done, and be able to use the JS object model we all know so well. Knex is the SQL connector for js, allowing us to change db tables and query in the classic SQL fashion. Bookshelf.js is for the object notation abstraction. Finally we use bookshelf-modelbase to access a bunch of pre build models for CRUD operations.
+  What the hell is all this stuff? short answer, the tools we are using serve as abstractions on top of SQL to get our querying done and use the JS object model we all know so well. Knex is the SQL connector for our javascript, allowing us to change db tables and query in the classic SQL fashion. Bookshelf.js is for the object notation abstraction. Finally we use bookshelf-modelbase to access a bunch of pre build models for CRUD operations.
+
 
   JS object notation create query for example:
 
@@ -80,19 +96,21 @@
   ```
 
 
-#### Knex Migration
-  Next we must execute our migration using the knex CLI. First, install the knex CLI globally if you dont have it:
+#### Manual Knex Migration (how and why)
+   If we want to alter our table structure, or add new tables, we will be creating a new migraiton.
+
+   A note on manual migration using the knex CLI. First, install the knex CLI globally if you dont have it:
   `npm install knex --global`
-  Next, navigate to your config directory and run the following command to execute our migration and create our table with columns:
+  Next, navigate to your config directory and run the following command to create a new migration:
+  `knex migrate:create migrationName`
+   execute our migration and create our table with columns:
   `knex migrate:latest`
 
-
   ![migration](http://alexmurphy.me/img/neap_template/migration.png)
-  ![dbtable](http://alexmurphy.me/img/neap_template/dbtable.png)
 
 
 
-  From there, you can declare your database table and use bookshelf.js in conjunction with bookshelf-modelbase to append data into your table. See the following example, In this case I am appending data into my DB based on a POST route:
+  Next, lets look at our `app/routes.js` file. This file defines our express routes for our API. From there, you can declare your database table and use bookshelf.js in conjunction with bookshelf-modelbase to append data into your table. See the following example, In this case I am appending data into my DB based on a POST route:
 
   ```javascript
   var yourTable = ModelBase.extend({
