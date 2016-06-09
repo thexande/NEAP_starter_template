@@ -1,8 +1,10 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTableIfNotExists('YOUR_TABLE_NAME_HERE', function(table){
+    knex.schema.createTableIfNotExists('post_contents', function(table){
       table.increments('id').primary()
-      table.text("text_column")
+      table.text("post_contents")
+      table.text("created_at")
+      table.text("updated_at")
     })
   ])
 }

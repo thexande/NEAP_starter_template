@@ -20,7 +20,9 @@
     return Promise.all([
       knex.schema.createTableIfNotExists('YOUR_TABLE_NAME_HERE', function(table){
         table.increments('id').primary()
-        table.text("postBody")
+        table.text("post_contents")
+        table.text("created_at")
+        table.text("updated_at")
       })
     ])
   }
@@ -50,6 +52,12 @@
   Next, navigate to your config directory and run the following command to execute our migration and create our table with columns:
   `knex migrate:latest`
 
+
+  ![migration](http://alexmurphy.me/img/neap_template/migration.png)
+  ![dbtable](http://alexmurphy.me/img/neap_template/dbtable.png)
+
+
+
   From there, you can declare your database table and use bookshelf.js in conjunction with bookshelf-modelbase to append data into your table. See the following example, In this case I am appending data into my DB based on a POST route:
 
   ```javascript
@@ -59,7 +67,7 @@
 
   // api route
   router.route('/logToDatabase').post(function(req, res) {
-    yourTable.Create({ 'postBody' : req.body })
+    yourTable.create({ 'post_body' : req.body })
       .catch((error) => {
         console.log(error)
         res.send("error")
@@ -70,3 +78,7 @@
       })
   })
   ```
+  #### Next, use PostMan to test our route.
+  ![postman](http://alexmurphy.me/img/neap_template/postman.png)
+  #### And our final result, a record in our DB!!!!
+  ![dbrecord](http://alexmurphy.me/img/neap_template/dbrecord.png)
