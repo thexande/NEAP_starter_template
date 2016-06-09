@@ -45,6 +45,11 @@
       }
   };
   ```
+  Next we must execute our migration using the knex CLI. First, install the knex CLI globally if you dont have it:
+  `npm install knex --global`
+  Next, navigate to your config directory and run the following command to execute our migration and create our table with columns:
+  `knex migrate:latest`
+
   From there, you can declare your database table and use bookshelf.js in conjunction with bookshelf-modelbase to append data into your table. See the following example, In this case I am appending data into my DB based on a POST route:
 
   ```javascript
